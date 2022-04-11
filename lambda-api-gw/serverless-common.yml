@@ -1,0 +1,10 @@
+region: eu-west-1
+stage: dev
+buckets:
+  - "arn:aws:s3:::dev-docs-upload-bucket/"
+  - "arn:aws:s3:::dev-docs-upload-bucket/*"
+  - "arn:aws:s3:::prod-docs-upload-bucket"
+  - "arn:aws:s3:::prod-docs-upload-bucket/*"
+accounts:
+  - "123456789123"
+  - "987654321987"

@@ -1,0 +1,59 @@
+service: s3-presigned-upload-api-gw-url
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  architecture: arm64
+  memorySize: 128
+  region: ${file(serverless-common.yml):region}
+  stage: ${file(serverless-common.yml):stage}
+  buckets: ${file(serverless-common.yml):buckets}
+  accounts: ${file(serverless-common.yml):accounts}
+  lambdaHashingVersion: '20201221'
+
+
+functions:
+  presigned-upload-url:
+    handler: index.handler
+    role: PresignedUploadApiGWUrlRole
+    reservedConcurrency: 2
+    events:
+      - http:
+          path: /upload-url/{env}/{folderName}/{fileName}
+          method: get
+          cors: true
+
+resources:
+ 
+  Resources:
+
+    PresignedUploadApiGWUrlRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: s3-presigned-upload-api-gw-url-role
+        ManagedPolicyArns:
+          - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        Policies:
+          - PolicyName: s3-presigned-upload-api-gw-url-policy
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: "Allow"
+                  Action:
+                    - "s3:GetObject"
+                    - "s3:GetObjectVersion"
+                    - "s3:PutObject"
+                    - "s3:PutObjectAcl"
+                  Resource: ${self:provider.buckets}
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Principal:
+                AWS: ${self:provider.accounts}
+              Action: sts:AssumeRole
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action: sts:AssumeRole
