@@ -31,7 +31,7 @@ presigned-upload-url: s3-presigned-upload-api-gw-url-dev-presigned-upload-url (3
 ```bash
 https://nhhx4a5v4k.execute-api.eu-west-1.amazonaws.com/dev/upload-url/dev/folder1/file1.csv
 ```
-The output should look like 
+The output should look like:
 <details><summary>nbb-lambda successful response</summary>
 
 ```json
@@ -59,9 +59,11 @@ sls remove
 
 ## lambda-url
 This module describes the serverless stack that creates presigned urls for file uploads.
-It consists of a Node.js lambda implemented using `nbb` and IAM role. This module leverages recently announced [AWS Function URLs](https://aws.amazon.com/blogs/aws/announcing-aws-lambda-function-urls-built-in-https-endpoints-for-single-function-microservices/).
+It consists of a Node.js lambda implemented using `nbb` and IAM role. This module leverages recently announced [AWS Function URLs](https://aws.amazon.com/blogs/aws/announcing-aws-lambda-function-urls-built-in-https-endpoints-for-single-function-microservices/) feature.
 
-⚠️ Serverless framework support this functionality only after version 3.12. In order to deploy the stack follow these steps:
+⚠️ Serverless framework [supports](https://www.serverless.com/blog/aws-lambda-function-urls-with-serverless-framework) this functionality only after the version 3.12 or greater. 
+
+In order to deploy the stack follow these steps:
 * install dependencies for this module execute the following:
 ```bash
 cd lambda-url/
@@ -82,7 +84,7 @@ functions:
 ```bash
 curl https://kafts7qbofkzbbvxbxxzavlv6i0aelqr.lambda-url.eu-west-1.on.aws/dev/folder1/file1.csv
 ```
-The output should look like
+The output should look like:
 <details><summary>nbb-lambda successful response</summary>
 
 ```json
@@ -102,7 +104,7 @@ The output should look like
 ```
 </details>
 
-* to remove the stack use the following command
+* to remove the stack use the following command:
 ```
 sls remove
 ```
