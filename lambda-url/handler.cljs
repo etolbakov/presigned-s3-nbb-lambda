@@ -20,7 +20,8 @@
               response (createPresignedPost s3 (clj->js {:Bucket     bucket-name
                                                          :Key        key
                                                          :Expires    300
-                                                         :Fields     {:key key}
+                                                         :Fields     {:key key
+                                                                      :acl "bucket-owner-full-control"}
                                                          :Conditions [["eq", "$key", key]
                                                                       ["content-length-range", 0, 10485760]
                                                                       ["starts-with", "$Content-Type", "text/"]]}))]
